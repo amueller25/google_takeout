@@ -58,7 +58,7 @@ if hours:
     plt.bar(x, y, color='skyblue')
     plt.xlabel('Hour of the Day')
     plt.ylabel('Number of Activities')
-    plt.title('Activities by Hour of the Day (Searches and Watches)')
+    plt.title('Afton Mueller:  YouTube Activity by Hour of the Day')
     plt.xticks(x)  # Show all 24 hours
     plt.grid(True)
     plt.tight_layout()  # Ensures labels don't get cut off
