@@ -55,7 +55,7 @@ if hours:
 
     # Plotting the data
     plt.figure(figsize=(10, 6))
-    plt.bar(x, y, color='skyblue')
+    plt.bar(x, y, color='pink')
     plt.xlabel('Hour of the Day')
     plt.ylabel('Number of Activities')
     plt.title('Afton Mueller:  YouTube Activity by Hour of the Day')

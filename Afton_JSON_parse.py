@@ -48,10 +48,10 @@ df['hour_of_day'] = df['timestamp'].dt.hour
 
 # Create a histogram of browsing activity based on the hour of the day
 plt.figure(figsize=(10, 6))
-plt.hist(df['hour_of_day'], bins=range(24), edgecolor='black', color='blue', alpha=0.7)
+plt.hist(df['hour_of_day'], bins=range(24), edgecolor='black', color='pink', alpha=0.7)
 
 # Customize the plot
-plt.title('Browsing Activity by Time of Day')
+plt.title('Afton Mueller:  Google Chrome Activity by Hour of the Day')
 plt.xlabel('Hour of the Day')
 plt.ylabel('Number of Visits')
 plt.xticks(range(24))  # Show all hours from 0 to 23
