@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Path to YouTube search history HTML
-file_path = "Takeout2/YouTube and YouTube Music/history/search-history.html"
+file_path = "/Users/kearapolovick/Desktop/Takeout/YouTube and YouTube Music/history/watch-history.html"
 
 # Step 1: Read the HTML content
 try:

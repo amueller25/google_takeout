@@ -4,7 +4,7 @@ import datetime
 import matplotlib.pyplot as plt
 
 # Path to Google Chrome history JSON file
-chrome_history_path = "Takeout1/Chrome/History.json"
+chrome_history_path = "/Users/kearapolovick/Desktop/Takeout/Chrome/History.json"
 
 # Step 1: Load JSON data
 try:

@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import json
 from datetime import datetime, timedelta
 
-# Function to load data from Google Takeout JSON (replace with actual file path)
+# Function to load data from Google Takeout JSON
 def load_chrome_history(file_path):
     with open(file_path) as f:
         data = json.load(f)
@@ -21,7 +21,7 @@ def convert_usec_to_datetime(time_usec):
 def extract_hour(dt):
     return dt.hour  # Extract only the hour
 
-# Load the data from your Google Takeout Chrome history file
+# Load the data from Google Takeout Chrome history file
 file_path = '/Users/kearapolovick/Desktop/Takeout/Chrome/History.json'  # Replace with your actual file path
 data = load_chrome_history(file_path)
 
