@@ -44,7 +44,8 @@ print(f"Successfully parsed {len(timestamps)} timestamps.")
 timestamps.sort()
 
 # Step 5: Detect inactivity periods
-inactivity_threshold = timedelta(hours=5)  # Define inactivity as 5+ hours
+inactivity_threshold_lowerbound = timedelta(hours=5)  # Define inactivity as 5+ hours
+inactivity_threshold_upperbound = timedelta(hours=10) # Upper bound of sleep
 sleep_periods = []
 
 for i in range(1, len(timestamps)):
