@@ -31,12 +31,13 @@ print(f"Successfully parsed {len(timestamps)} timestamps.")
 timestamps.sort()
 
 # Step 4: Detect inactivity periods
-inactivity_threshold = datetime.timedelta(hours=5)  # Define inactivity as 5+ hours
+inactivity_threshold_lowerbound = datetime.timedelta(hours=5)  # Define inactivity as 5+ hours, lower bound of sleep time
+inactivity_threshold_upperbound = datetime.timedelta(hours=10) # Upper bound of estimated sleep time
 sleep_periods = []
 
 for i in range(1, len(timestamps)):
     gap = timestamps[i] - timestamps[i - 1]
-    if gap >= inactivity_threshold:
+    if inactivity_threshold_lowerbound <= gap <= inactivity_threshold_upperbound:
         sleep_periods.append((timestamps[i - 1], timestamps[i], gap))
 
 # Debugging: Print detected inactivity periods
@@ -47,6 +48,7 @@ for start, end, gap in sleep_periods:
 # Step 5: Visualizing Inactivity Periods
 if sleep_periods:
     sleep_durations = [gap.total_seconds() / 3600 for _, _, gap in sleep_periods]
+    # print(sleep_durations)
     start_times = [start.hour for start, _, _ in sleep_periods]
 
     plt.figure(figsize=(10, 6))
