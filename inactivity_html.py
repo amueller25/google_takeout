@@ -45,12 +45,12 @@ timestamps.sort()
 
 # Step 5: Detect inactivity periods
 inactivity_threshold_lowerbound = timedelta(hours=5)  # Define inactivity as 5+ hours
-inactivity_threshold_upperbound = timedelta(hours=10) # Upper bound of sleep
+inactivity_threshold_upperbound = timedelta(hours=12) # Upper bound of sleep
 sleep_periods = []
 
 for i in range(1, len(timestamps)):
     gap = timestamps[i] - timestamps[i - 1]
-    if gap >= inactivity_threshold:
+    if inactivity_threshold_lowerbound <= gap <= inactivity_threshold_upperbound:
         sleep_periods.append((timestamps[i - 1], timestamps[i], gap))
 
 # Debugging: Print detected inactivity periods

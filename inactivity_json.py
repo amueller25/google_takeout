@@ -29,6 +29,8 @@ print(f"Successfully parsed {len(timestamps)} timestamps.")
 
 # Step 3: Sort timestamps
 timestamps.sort()
+print(timestamps[0])
+print(timestamps[62811])
 
 # Step 4: Detect inactivity periods
 inactivity_threshold_lowerbound = datetime.timedelta(hours=5)  # Define inactivity as 5+ hours, lower bound of sleep time

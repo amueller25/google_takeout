@@ -27,6 +27,8 @@ data = load_chrome_history(file_path)
 
 # Extract time and convert to datetime
 timestamps = [convert_usec_to_datetime(entry['time_usec']) for entry in data]
+timestamps.sort()
+print(timestamps[0])
 
 # Extract only the hour of the day (ignoring the date)
 hours = [extract_hour(t) for t in timestamps]
