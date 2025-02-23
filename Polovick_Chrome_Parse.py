@@ -33,17 +33,23 @@ print(timestamps[0])
 # Extract only the hour of the day (ignoring the date)
 hours = [extract_hour(t) for t in timestamps]
 
-# Plotting the histogram of activities over hours
+# Create a histogram of browsing activity based on the hour of the day
 plt.figure(figsize=(10, 6))
-plt.hist(hours, bins=24, range=(0, 24), color='b', edgecolor='black', alpha=0.7)
+plt.hist(hours, bins=range(25), edgecolor='black', color='pink', alpha=0.7)
 
-# Add titles and labels
-plt.title('Keara Polovick: Google Chrome Activity By Hour of the Day')
-plt.xlabel('Hour of the Day')
-plt.ylabel('Number of Activities')
-plt.xticks(range(24))  # Show all 24 hours of the day
+# Convert hours to 12-hour format with AM/PM
+labels = [f"{(h-1)%12+1}{'A' if h < 12 else 'P'}" for h in range(24)]
+
+# Customize the plot
+plt.title("Keara's Google Chrome Activity by Hour of the Day")
+plt.xlabel('Time of Day')
+plt.ylabel('Number of Visits')
+
+# Update x-axis labels with 12-hour format and slant them
+plt.xticks(range(24), labels, rotation=45, ha='right')
+
 plt.grid(True)
+plt.tight_layout()  # Ensures labels don't get cut off
 
 # Show the plot
-plt.tight_layout()
 plt.show()
