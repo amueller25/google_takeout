@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # File paths
-html_file_path = r"C:\Users\equus\CS4501\watch-history.html"
-json_file_path = r"C:\Users\equus\CS4501\History.json"
+html_file_path = "/Users/kearapolovick/Desktop/Takeout/YouTube and YouTube Music/history/watch-history.html"
+json_file_path = "/Users/kearapolovick/Desktop/Takeout/Chrome/History.json"
 
 # Function to extract timestamps from YouTube HTML file
 def extract_html_datetimes(file_path):
