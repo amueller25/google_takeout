@@ -1,26 +1,47 @@
 import re
 import os
+import json
 import matplotlib.pyplot as plt
-import numpy as np
 from datetime import datetime
 
-def extract_datetimes(file_path):
+# File paths
+html_file_path = r"C:\Users\equus\CS4501\search-history.html"
+json_file_path = r"C:\Users\equus\CS4501\History.json"
+
+# Function to extract timestamps from YouTube HTML file
+def extract_html_datetimes(file_path):
     if not os.path.exists(file_path):
-        print("Error: File not found. Check the path:", file_path)
-        exit()
+        print("Error: YouTube file not found. Check the path:", file_path)
+        return []
     
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
     
-    # Regular expression to find date and time combinations
     datetime_pattern = re.compile(r'([A-Za-z]{3} \d{1,2}, \d{4}, \d{1,2}:\d{2}:\d{2}\s?[AP]M)')
     matches = datetime_pattern.findall(content)
     
-    # Convert extracted datetime strings to datetime objects
-    datetime_objects = [datetime.strptime(dt, '%b %d, %Y, %I:%M:%S %p') for dt in matches]
-    
-    return sorted(datetime_objects)
+    return sorted(datetime.strptime(dt, '%b %d, %Y, %I:%M:%S %p') for dt in matches)
 
+# Function to extract timestamps from Chrome JSON file
+def extract_json_datetimes(file_path):
+    if not os.path.exists(file_path):
+        print("Error: Chrome file not found. Check the path:", file_path)
+        return []
+    
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+    chrome_history = data.get('Chrome Browser History', [])
+    
+    timestamps = []
+    for entry in chrome_history:
+        timestamp = entry.get('time_usec', 0)
+        if timestamp:
+            timestamps.append(datetime.utcfromtimestamp(timestamp / 1_000_000))
+    
+    return sorted(timestamps)
+
+# Function to plot inactivity periods
 def plot_inactivity_periods(datetimes):
     inactivity_start_hours = []
     inactivity_end_hours = []
@@ -39,20 +60,24 @@ def plot_inactivity_periods(datetimes):
     plt.scatter(inactivity_start_hours, inactivity_lengths, color='royalblue', alpha=0.7, label="Start of Inactivity")
     plt.scatter(inactivity_end_hours, inactivity_lengths, color='deeppink', alpha=0.7, label="End of Inactivity")
 
-    plt.xlabel("Hour of Day")
+    plt.xlabel("Time of Day")
     plt.ylabel("Length of Inactivity (hours)")
-    plt.title("Periods of Inactivity in YouTube History (5-12 hours)")
-    
-    # Format x-axis labels as 12A, 1A, ..., 12P, 1P, ..., 11P
+    plt.title("Afton's Periods of Inactivity (5-12 hours)")
+
+    # Convert hours to 12-hour format with AM/PM
     hour_labels = ["12A"] + [f"{h}A" for h in range(1, 12)] + ["12P"] + [f"{h}P" for h in range(1, 12)]
     plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
-    
+
     plt.grid(axis='y', linestyle='--', alpha=0.7)
     plt.legend()
     plt.show()
 
-# Specify the path to your file
-file_path = r"C:\Users\equus\CS4501\search-history.html"
+# Extract timestamps from both sources
+html_datetimes = extract_html_datetimes(html_file_path)
+json_datetimes = extract_json_datetimes(json_file_path)
 
-datetimes = extract_datetimes(file_path)
-plot_inactivity_periods(datetimes)
+# Merge and sort both datasets
+all_datetimes = sorted(html_datetimes + json_datetimes)
+
+# Plot inactivity periods
+plot_inactivity_periods(all_datetimes)
