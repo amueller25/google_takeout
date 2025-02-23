@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # File paths
-html_file_path = r"C:\Users\equus\CS4501\search-history.html"
-json_file_path = r'C:\Users\equus\CS4501\History.json'
+html_file_path = '/Users/kearapolovick/Desktop/Takeout/YouTube and YouTube Music/history/watch-history.html'
+json_file_path = '/Users/kearapolovick/Desktop/Takeout/Chrome/History.json'
 
 # Function to extract timestamps from YouTube HTML file
 def extract_html_datetimes(file_path):
@@ -82,7 +82,7 @@ def plot_sleep_patterns(sleep_data):
     plt.hist(sleep_starts, bins=range(25), color='lightskyblue', edgecolor='royalblue', alpha=0.7, density=True)
     plt.xlabel("Hour of Day (Sleep Start)", fontsize=10)
     plt.ylabel("Frequency (Normalized)", fontsize=10)
-    plt.title("Afton's Inferred Sleep Start Times (8P - 5A)", fontsize=12)
+    plt.title("Keara's Inferred Sleep Start Times (8P - 5A)", fontsize=12)
     plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
 
     # Wake-up Time Histogram
@@ -90,7 +90,7 @@ def plot_sleep_patterns(sleep_data):
     plt.hist(wake_times, bins=range(25), color='lightpink', edgecolor='deeppink', alpha=0.7, density=True)
     plt.xlabel("Hour of Day (Wake-up Time)", fontsize=10)
     plt.ylabel("Frequency (Normalized)", fontsize=10)
-    plt.title("Afton's Inferred Wake-up Times (5A - 2P)", fontsize=12)
+    plt.title("Keara's Inferred Wake-up Times (5A - 2P)", fontsize=12)
     plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
 
     plt.tight_layout()

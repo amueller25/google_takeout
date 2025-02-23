@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # File paths
-html_file_path = r"C:\Users\equus\CS4501\search-history.html"
-json_file_path = r"C:\Users\equus\CS4501\History.json"
+html_file_path = '/Users/kearapolovick/Desktop/Takeout/YouTube and YouTube Music/history/watch-history.html'
+json_file_path = '/Users/kearapolovick/Desktop/Takeout/Chrome/History.json'
 
 # Function to extract timestamps from YouTube HTML file
 def extract_html_datetimes(file_path):
@@ -62,7 +62,7 @@ def plot_inactivity_periods(datetimes):
 
     plt.xlabel("Time of Day")
     plt.ylabel("Length of Inactivity (hours)")
-    plt.title("Afton's Periods of Inactivity (5-12 hours)")
+    plt.title("Keara's Periods of Inactivity (5-12 hours)")
 
     # Convert hours to 12-hour format with AM/PM
     hour_labels = ["12A"] + [f"{h}A" for h in range(1, 12)] + ["12P"] + [f"{h}P" for h in range(1, 12)]
