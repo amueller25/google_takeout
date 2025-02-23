@@ -1,35 +1,55 @@
 import re
 import os
+import json
+import pandas as pd
 import matplotlib.pyplot as plt
-import numpy as np
 from datetime import datetime
 
-def extract_datetimes(file_path):
+# File paths
+html_file_path = r"C:\Users\equus\CS4501\watch-history.html"
+json_file_path = r"C:\Users\equus\CS4501\History.json"
+
+# Function to extract timestamps from YouTube HTML file
+def extract_html_datetimes(file_path):
     if not os.path.exists(file_path):
-        print("Error: File not found. Check the path:", file_path)
-        exit()
+        print("Error: YouTube file not found. Check the path:", file_path)
+        return []
     
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
     
-    # Regular expression to find date and time combinations
     datetime_pattern = re.compile(r'([A-Za-z]{3} \d{1,2}, \d{4}, \d{1,2}:\d{2}:\d{2}\s?[AP]M)')
     matches = datetime_pattern.findall(content)
     
-    # Convert extracted datetime strings to datetime objects
-    datetime_objects = [datetime.strptime(dt, '%b %d, %Y, %I:%M:%S %p') for dt in matches]
-    
-    return sorted(datetime_objects)
+    return sorted(datetime.strptime(dt, '%b %d, %Y, %I:%M:%S %p') for dt in matches)
 
+# Function to extract timestamps from Chrome JSON file
+def extract_json_datetimes(file_path):
+    if not os.path.exists(file_path):
+        print("Error: Chrome file not found. Check the path:", file_path)
+        return []
+    
+    with open(file_path, 'r') as file:
+        data = json.load(file)
+
+    chrome_history = data.get('Chrome Browser History', [])
+    
+    timestamps = []
+    for entry in chrome_history:
+        timestamp = entry.get('time_usec', 0)
+        if timestamp:
+            timestamps.append(datetime.utcfromtimestamp(timestamp / 1_000_000))
+    
+    return sorted(timestamps)
+
+# Function to determine sleep periods from combined data
 def find_sleep_periods(datetimes):
     sleep_data = []
-
     if not datetimes:
         return sleep_data
 
     daily_gaps = {}
 
-    # Identify longest inactivity per day
     for i in range(1, len(datetimes)):
         prev, curr = datetimes[i-1], datetimes[i]
         gap = (curr - prev).total_seconds() / 3600  # Convert to hours
@@ -38,15 +58,13 @@ def find_sleep_periods(datetimes):
         sleep_start_hour, wake_hour = prev.hour, curr.hour
         
         if prev_date not in daily_gaps or gap > daily_gaps[prev_date][1]:
-            # Ensure sleep start is between 8 PM (20) - 5 AM (5) and wake-up is between 5 AM (5) - 2 PM (14)
+            # Ensure sleep start is between 8 PM - 5 AM and wake-up is between 5 AM - 2 PM
             if (20 <= sleep_start_hour or sleep_start_hour < 5) and (5 <= wake_hour < 14):
                 daily_gaps[prev_date] = (sleep_start_hour, wake_hour)
 
-    # Extract sleep start and wake-up times
-    sleep_data = list(daily_gaps.values())
-    
-    return sleep_data
+    return list(daily_gaps.values())
 
+# Function to plot sleep patterns
 def plot_sleep_patterns(sleep_data):
     if not sleep_data:
         print("No sleep data found.")
@@ -77,9 +95,15 @@ def plot_sleep_patterns(sleep_data):
     plt.tight_layout()
     plt.show()
 
-# Specify the path to your file
-file_path = r"C:\Users\equus\CS4501\watch-history.html"
+# Extract timestamps from both sources
+html_datetimes = extract_html_datetimes(html_file_path)
+json_datetimes = extract_json_datetimes(json_file_path)
 
-datetimes = extract_datetimes(file_path)
-sleep_data = find_sleep_periods(datetimes)
+# Merge and sort both datasets
+all_datetimes = sorted(html_datetimes + json_datetimes)
+
+# Find sleep periods
+sleep_data = find_sleep_periods(all_datetimes)
+
+# Plot results
 plot_sleep_patterns(sleep_data)
