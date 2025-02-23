@@ -7,6 +7,9 @@ import pandas as pd
 # Path to YouTube search history HTML
 file_path = "/Users/kearapolovick/Desktop/Takeout/YouTube and YouTube Music/history/watch-history.html"
 
+# Path to Afton's Youtube search history HTML
+# file_path = r"C:\Users\equus\CS4501\search-history.html"
+
 # Step 1: Read the HTML content
 try:
     with open(file_path, 'r', encoding='utf-8') as file:
@@ -50,7 +53,7 @@ sleep_periods = []
 
 for i in range(1, len(timestamps)):
     gap = timestamps[i] - timestamps[i - 1]
-    if gap >= inactivity_threshold:
+    if gap >= inactivity_threshold_lowerbound:
         sleep_periods.append((timestamps[i - 1], timestamps[i], gap))
 
 # Debugging: Print detected inactivity periods
