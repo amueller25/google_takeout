@@ -4,7 +4,6 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Path to your JSON file
-# This is the path for Afton's chrome json data
 file_path = r'C:\Users\equus\CS4501\History.json'
 
 # Function to convert microsecond timestamp to human-readable format
@@ -52,15 +51,21 @@ df['hour_of_day'] = df['timestamp'].dt.hour
 
 # Create a histogram of browsing activity based on the hour of the day
 plt.figure(figsize=(10, 6))
-plt.hist(df['hour_of_day'], bins=range(24), edgecolor='black', color='pink', alpha=0.7)
+plt.hist(df['hour_of_day'], bins=range(25), edgecolor='black', color='pink', alpha=0.7)
+
+# Convert hours to 12-hour format with AM/PM
+labels = [f"{(h-1)%12+1}{'A' if h < 12 else 'P'}" for h in range(24)]
 
 # Customize the plot
-plt.title('Afton Mueller:  Google Chrome Activity by Hour of the Day')
-plt.xlabel('Hour of the Day')
+plt.title("Afton's Google Chrome Activity by Hour of the Day")
+plt.xlabel('Time of Day')
 plt.ylabel('Number of Visits')
-plt.xticks(range(24))  # Show all hours from 0 to 23
-plt.grid(True, which='both', linestyle='--', linewidth=0.5)
-plt.tight_layout()
+
+# Update x-axis labels with 12-hour format and slant them
+plt.xticks(range(24), labels, rotation=45, ha='right')
+
+plt.grid(True)
+plt.tight_layout()  # Ensures labels don't get cut off
 
 # Show the plot
 plt.show()

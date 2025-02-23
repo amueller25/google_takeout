@@ -6,8 +6,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # File paths
-html_file_path = "/Users/kearapolovick/Desktop/Takeout/YouTube and YouTube Music/history/watch-history.html"
-json_file_path = "/Users/kearapolovick/Desktop/Takeout/Chrome/History.json"
+html_file_path = r"C:\Users\equus\CS4501\search-history.html"
+json_file_path = r'C:\Users\equus\CS4501\History.json'
 
 # Function to extract timestamps from YouTube HTML file
 def extract_html_datetimes(file_path):
@@ -74,23 +74,24 @@ def plot_sleep_patterns(sleep_data):
 
     plt.figure(figsize=(12, 5))
 
+    # Define custom hour labels
+    hour_labels = ["12A"] + [f"{h}A" for h in range(1, 12)] + ["12P"] + [f"{h}P" for h in range(1, 12)]
+
     # Sleep Start Histogram
     plt.subplot(1, 2, 1)
-    plt.hist(sleep_starts, bins=range(25), color='skyblue', edgecolor='black', alpha=0.7, density=True)
-    plt.xlabel("Hour of day (sleep start)")
-    plt.ylabel("Frequency (normalized)")
-    plt.title("Inferred Sleep Start Times (8 PM - 5 AM)")
-    
+    plt.hist(sleep_starts, bins=range(25), color='lightskyblue', edgecolor='royalblue', alpha=0.7, density=True)
+    plt.xlabel("Hour of Day (Sleep Start)", fontsize=10)
+    plt.ylabel("Frequency (Normalized)", fontsize=10)
+    plt.title("Afton's Inferred Sleep Start Times (8P - 5A)", fontsize=12)
+    plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
+
     # Wake-up Time Histogram
     plt.subplot(1, 2, 2)
-    plt.hist(wake_times, bins=range(25), color='lightcoral', edgecolor='black', alpha=0.7, density=True)
-    plt.xlabel("Hour of day (wake-up time)")
-    plt.ylabel("Frequency (normalized)")
-    plt.title("Inferred Wake-up Times (5 AM - 2 PM)")
-
-    # Format x-axis
-    hour_labels = ["12A"] + [f"{h}A" for h in range(1, 12)] + ["12P"] + [f"{h}P" for h in range(1, 12)]
-    plt.xticks(range(24), hour_labels)
+    plt.hist(wake_times, bins=range(25), color='lightpink', edgecolor='deeppink', alpha=0.7, density=True)
+    plt.xlabel("Hour of Day (Wake-up Time)", fontsize=10)
+    plt.ylabel("Frequency (Normalized)", fontsize=10)
+    plt.title("Afton's Inferred Wake-up Times (5A - 2P)", fontsize=12)
+    plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
 
     plt.tight_layout()
     plt.show()

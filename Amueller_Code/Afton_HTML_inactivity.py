@@ -23,29 +23,36 @@ def extract_datetimes(file_path):
 
 def plot_inactivity_periods(datetimes):
     inactivity_start_hours = []
+    inactivity_end_hours = []
     inactivity_lengths = []
     
     for i in range(1, len(datetimes)):
         gap = (datetimes[i] - datetimes[i-1]).total_seconds() / 3600  # Convert gap to hours
         if 5 <= gap <= 12:  # Consider inactivity only if the gap is between 5 and 12 hours
-            inactivity_start_hours.append(datetimes[i-1].hour)
+            inactivity_start_hours.append(datetimes[i-1].hour)  # Start of inactivity
+            inactivity_end_hours.append(datetimes[i].hour)  # End of inactivity
             inactivity_lengths.append(gap)
     
     plt.figure(figsize=(10, 5))
-    plt.scatter(inactivity_start_hours, inactivity_lengths, color='pink', alpha=0.7)
-    plt.xlabel("Hour of day (start of inactivity)")
-    plt.ylabel("Length of inactivity (hours)")
-    plt.title("Periods of Inactivity in YouTube Watch History (5-12 hours)")
+    
+    # Scatter plot: blue for start, pink for end
+    plt.scatter(inactivity_start_hours, inactivity_lengths, color='royalblue', alpha=0.7, label="Start of Inactivity")
+    plt.scatter(inactivity_end_hours, inactivity_lengths, color='deeppink', alpha=0.7, label="End of Inactivity")
+
+    plt.xlabel("Hour of Day")
+    plt.ylabel("Length of Inactivity (hours)")
+    plt.title("Periods of Inactivity in YouTube History (5-12 hours)")
     
     # Format x-axis labels as 12A, 1A, ..., 12P, 1P, ..., 11P
     hour_labels = ["12A"] + [f"{h}A" for h in range(1, 12)] + ["12P"] + [f"{h}P" for h in range(1, 12)]
-    plt.xticks(range(24), hour_labels)
+    plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
     
     plt.grid(axis='y', linestyle='--', alpha=0.7)
+    plt.legend()
     plt.show()
 
 # Specify the path to your file
-file_path = r"C:\Users\equus\CS4501\watch-history.html"
+file_path = r"C:\Users\equus\CS4501\search-history.html"
 
 datetimes = extract_datetimes(file_path)
 plot_inactivity_periods(datetimes)

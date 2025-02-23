@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from collections import Counter
 
 # Path to the HTML file
-# This is the path for my (Afton's) search-history.html
 file_path = r"C:\Users\equus\CS4501\search-history.html"
 
 # Step 1: Read the content of the HTML file
@@ -53,13 +52,19 @@ if hours:
     x = list(range(24))  # All 24 hours of the day
     y = [hour_counts.get(i, 0) for i in x]  # Get count for each hour (default 0 if no activity)
 
+    # Convert hours to 12-hour format with AM/PM
+    labels = [f"{(h-1)%12+1}{'A' if h < 12 else 'P'}" for h in x]
+
     # Plotting the data
     plt.figure(figsize=(10, 6))
     plt.bar(x, y, color='pink')
-    plt.xlabel('Hour of the Day')
+    plt.xlabel('Time of Day')
     plt.ylabel('Number of Activities')
-    plt.title('Afton Mueller:  YouTube Activity by Hour of the Day')
-    plt.xticks(x)  # Show all 24 hours
+    plt.title("Afton's YouTube Activity by Hour of the Day")
+
+    # Update x-axis labels with 12-hour format and slant them
+    plt.xticks(x, labels, rotation=45, ha='right')
+
     plt.grid(True)
     plt.tight_layout()  # Ensures labels don't get cut off
     plt.show()
