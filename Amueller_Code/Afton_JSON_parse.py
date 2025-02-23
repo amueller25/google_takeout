@@ -43,6 +43,10 @@ df = pd.DataFrame(parsed_data)
 # Convert the 'timestamp' column to datetime type
 df['timestamp'] = pd.to_datetime(df['timestamp'])
 
+# Print the date range (min and max timestamps)
+date_range = (df['timestamp'].min(), df['timestamp'].max())
+print(f"Date range of data: {date_range[0].strftime('%Y-%m-%d %H:%M:%S')} to {date_range[1].strftime('%Y-%m-%d %H:%M:%S')}")
+
 # Extract the hour of the day (from 0 to 23) from the 'timestamp'
 df['hour_of_day'] = df['timestamp'].dt.hour
 
