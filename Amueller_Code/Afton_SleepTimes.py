@@ -4,6 +4,7 @@ import json
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
+import numpy as np
 
 # File paths
 html_file_path = r"C:\Users\equus\CS4501\search-history.html"
@@ -73,26 +74,28 @@ def plot_sleep_patterns(sleep_data):
     sleep_starts, wake_times = zip(*sleep_data)
 
     plt.figure(figsize=(12, 5))
-
-    # Define custom hour labels
     hour_labels = ["12A"] + [f"{h}A" for h in range(1, 12)] + ["12P"] + [f"{h}P" for h in range(1, 12)]
-
-    # Sleep Start Histogram
+    
     plt.subplot(1, 2, 1)
     plt.hist(sleep_starts, bins=range(25), color='lightskyblue', edgecolor='royalblue', alpha=0.7, density=True)
     plt.xlabel("Hour of Day (Sleep Start)", fontsize=10)
     plt.ylabel("Frequency (Normalized)", fontsize=10)
     plt.title("Afton's Inferred Sleep Start Times (8P - 5A)", fontsize=12)
     plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
-
-    # Wake-up Time Histogram
+    plt.axvline(np.mean(sleep_starts), color='red', linestyle='dashed', linewidth=1, label=f"Mean: {np.mean(sleep_starts):.2f}")
+    plt.axvline(np.median(sleep_starts), color='blue', linestyle='dashed', linewidth=1, label=f"Median: {np.median(sleep_starts):.2f}")
+    plt.legend()
+    
     plt.subplot(1, 2, 2)
     plt.hist(wake_times, bins=range(25), color='lightpink', edgecolor='deeppink', alpha=0.7, density=True)
     plt.xlabel("Hour of Day (Wake-up Time)", fontsize=10)
     plt.ylabel("Frequency (Normalized)", fontsize=10)
     plt.title("Afton's Inferred Wake-up Times (5A - 2P)", fontsize=12)
     plt.xticks(range(24), hour_labels, rotation=45, fontsize=8, ha='right')
-
+    plt.axvline(np.mean(wake_times), color='red', linestyle='dashed', linewidth=1, label=f"Mean: {np.mean(wake_times):.2f}")
+    plt.axvline(np.median(wake_times), color='blue', linestyle='dashed', linewidth=1, label=f"Median: {np.median(wake_times):.2f}")
+    plt.legend()
+    
     plt.tight_layout()
     plt.show()
 
