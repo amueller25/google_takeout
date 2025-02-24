@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from collections import Counter
 
 # Path to the HTML file
-file_path = r"C:\Users\equus\CS4501\search-history.html"
+file_path = '/Users/kearapolovick/Desktop/Takeout/YouTube and YouTube Music/history/watch-history.html'
 
 # Step 1: Read the content of the HTML file
 try:
@@ -60,7 +60,7 @@ if hours:
     plt.bar(x, y, color='pink')
     plt.xlabel('Time of Day')
     plt.ylabel('Number of Activities')
-    plt.title("Afton's YouTube Activity by Hour of the Day")
+    plt.title("Keara's YouTube Activity by Hour of the Day")
 
     # Update x-axis labels with 12-hour format and slant them
     plt.xticks(x, labels, rotation=45, ha='right')

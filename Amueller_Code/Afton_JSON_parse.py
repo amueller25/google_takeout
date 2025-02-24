@@ -4,13 +4,13 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 # Path to your JSON file
-file_path = r'C:\Users\equus\CS4501\History.json'
+file_path = '/Users/kearapolovick/Desktop/Takeout/Chrome/History.json'
 
 # Function to convert microsecond timestamp to human-readable format
 def convert_to_readable_time(microseconds):
     # Convert microseconds to seconds
-    timestamp = microseconds / 1_000_000
-    return datetime.utcfromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+    timestamp1 = microseconds / 1_000_000
+    return datetime.utcfromtimestamp(timestamp1).strftime('%Y-%m-%d %H:%M:%S')
 
 # Load the JSON data
 with open(file_path, 'r') as file:
